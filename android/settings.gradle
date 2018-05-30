@@ -1,0 +1,3 @@
+rootProject.name = 'fun_with_react'
+
+include ':app'
