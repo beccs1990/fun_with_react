@@ -1,38 +1,53 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { getRepoDetails } from '../utils/apis';
-// props => last 10 PR's by author, name, title, status
+import { connect } from 'react-redux';
+import { getPRList } from '../actions/creators';
+import PullRequestCard from './pull-request-card';
+import Header from './header';
 
 class RepoDetails extends Component {
-  // this needs a list view to hold the list of last 10 PR's. Create reducer to hold that certain information and update reducer when mounting
-  // probably create a new card item for each PR
 
-  // componentWillMount() {
-    // getRepoDetails(this.props.title).then(response => {
-    //   console.log(response.data.url);
-    //   console.log(response.data.number);
-    //   console.log(response.data.title);
-    //   console.log(response.data.state);
-    //   console.log(response.data.user.login);
-    //   details = {
-    //     url: response.data.url,
-    //     number: response.data.number,
-    //     title: response.data.title,
-    //     status: response.data.state,
-    //     user: response.data.user.login,
-    //   }
-    // });
-  // }
-  
+  componentWillMount() {
+    getRepoDetails(this.props.owner, this.props.title).then(response => {
+      console.log(response);
+      if (!response.data && !response.data.length) {
+        this.props.last10PR = [];
+      }
+      this.props.getPRList(response.data)
+    });
+  }
+
+  getPullRequests() {
+      return this.props.last10PR.map(pr =>
+        <PullRequestCard
+          key={pr.id}
+          author={pr.user.login}
+          issueNumber={pr.number}
+          issueTitle={pr.title}
+          issueStatus={pr.state}
+        />
+      )
+  }
+
   render() {
-    console.log("details ", this.props);
     return (
       <View>
-        <Text>Hello</Text>
+        <Header>
+          10 Last PR's
+        </Header>
+        <ScrollView>
+            { this.getPullRequests() }
+        </ScrollView>
       </View>
     );
   };
 }
 
-export default RepoDetails;
+const mapStateToProps = state => {
+  console.log("details state ", state);
+  return state.pullRequests;
+};
+
+export default connect(mapStateToProps, { getPRList })(RepoDetails);
 

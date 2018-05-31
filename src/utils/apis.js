@@ -24,15 +24,8 @@ export const searchReposList = (text) => {
 };
 
 // get specific repo detail
-export const getRepoDetails = (repo) => {
-  let details = {};
-  return axios.get(`https://api.github.com/repos/${repo}/${repo}/pulls`, {
-    params: {
-      sort: 'created',
-        order: 'desc',
-        page: '1',
-        per_page: '10',
-    }
-  })
+export const getRepoDetails = (owner, repo) => {
+  // let details = {};
+  return axios.get(`https://api.github.com/repos/${owner}/${repo}/pulls?sort=created&order=desc&page=1&per_page=10`)
   // move this then out into the component will mount and update into reducer.
 };

@@ -1,26 +1,16 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
 import Button from './button';
 import { itemStyle } from '../utils/styles';
 import { Actions } from 'react-native-router-flux';
 
-// Mostly separation for styling - I think make into functional component since nothing on this should change, only route to details
-export default class RepoCard extends PureComponent {
-  // Add repo details in to route to detailed view
-  constructor(props) {
-    super(props);
-    console.log("in repo card", this.props);
-  }
-
-  enterRepoDetails = () => Actions.repodetails({ title: this.props.name });
-
-  render() {
-    // the attributes for this.props (one of name, stars, etc.) needs to be specific
-    const { name, stars, watchers, openIssues, avatar } = this.props;
-
+// think about making this reusable for pr cards
+const RepoCard = (props) => {
+  const enterRepoDetails = () => Actions.repodetails({ title: props.name, owner: props.owner });
+    const { name, stars, watchers, openIssues, avatar } = props;
+    // move styling out later
     return (
-      <TouchableOpacity onPress={this.enterRepoDetails}>
+      <TouchableOpacity onPress={enterRepoDetails}>
         <View style={itemStyle} flexDirection={'row'} justifyContent={'space-evenly'}>
           <Image style={{width: 50, height: 50, borderRadius: 25}} source={{uri: avatar}}/>
           <View alignItems={'center'}>
@@ -37,16 +27,12 @@ export default class RepoCard extends PureComponent {
               </Text>
             </Text>
           </View>
-          <Button onPress={this.enterRepoDetails}>
+          <Button onPress={enterRepoDetails}>
             >
           </Button>
         </View>
       </TouchableOpacity>
     );
-  }
-}
-// First argument is for map state to props, passing in null
-// actions is second argument, being passed down into component as props. Connect is some auto binding, no need to call dispatch.
+};
 
-
-// export default connect(mapStateToProps, actions)(RepoCard);
+export default RepoCard;

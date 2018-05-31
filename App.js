@@ -1,11 +1,8 @@
 import React, { PureComponent } from 'react';
 import ReactNative from 'react-native';
-import { View, StatusBar, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { rootStyles } from './src/utils/styles';
-import TopReposList from './src/components/top-repos-list';
-import Header from './src/components/header';
 import RouterComponent from './src/components/router';
-// import SearchBarComponent from './src/components/search-bar';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './src/reducers';

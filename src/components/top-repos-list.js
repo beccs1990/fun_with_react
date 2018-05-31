@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import { ScrollView } from 'react-native';
-import RepoListItem from './repo-list-item'
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import { getTopReposList } from '../utils/apis';
 import { getReposList } from '../actions/creators';
 import RepoCard from './repo-card';
+import Header from './header';
+import SearchBarComponent from './search-bar';
 
 class TopReposList extends PureComponent {
   // TopReposList class level props - may be good to add container refactoring for this component
@@ -19,8 +20,7 @@ class TopReposList extends PureComponent {
 
   getRepoItems() {
     console.log("top repos -----", this.props.topRepos);
-    if (this.props.topRepos.length) {
-      console.log("top repos length -----", this.props.topRepos.length);
+    if (this.props.topRepos && this.props.topRepos.length) {
       return this.props.topRepos.map(repo =>
         <RepoCard
           key={repo.id}
@@ -28,25 +28,31 @@ class TopReposList extends PureComponent {
           avatar={repo.owner.avatar_url}
           watchers={repo.watchers}
           stars={repo.stargazers_count}
-          openIssues={repo.open_issues}/>
+          openIssues={repo.open_issues}
+          owner={repo.owner.login}
+        />
       );
     }
   }
 
   render() {
-    console.log("this props in repo list => ", this.props);
-
+    // add condition to check whether it should display getRepoItems or getPrList?
     return (
-      <ScrollView removeClippedSubviews={false}>
-        {this.getRepoItems()}
-      </ScrollView>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <SearchBarComponent/>
+        <Header>
+          Top Repositories
+        </Header>
+        <ScrollView removeClippedSubviews={false}>
+          {this.getRepoItems()}
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => {
   // Mapping component state to the store
-  console.log("reducer state, from repos list => ", state);
   return state.repositories;
 };
 
