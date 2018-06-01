@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 // think about making this reusable for pr cards
 const RepoCard = (props) => {
   const enterRepoDetails = () => Actions.repodetails({ title: props.name, owner: props.owner });
-    const { name, stars, watchers, openIssues, avatar } = props;
+  const { name, stars, watchers, openIssues, avatar } = props;
     // move styling out later
     return (
       <TouchableOpacity onPress={enterRepoDetails}>

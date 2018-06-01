@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 const PullRequestCard = (props) => {
 
-  console.log("pr card props ", props);
+  // console.log("pr card props ", props);
   return(
     <TouchableOpacity>
       <View alignItems={'center'}>

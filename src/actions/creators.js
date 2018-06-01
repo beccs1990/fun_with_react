@@ -1,4 +1,4 @@
-import { GET_REPOS_SUCCESS, GET_PR_LIST_SUCCESS } from './types';
+import { GET_REPOS_SUCCESS, GET_PR_LIST_SUCCESS, SEARCH_REPOS_LIST } from './types';
 
 // Searching repos will need to update the top repos list, so need to create action to get repos list on mount
 // onChangeText it should update the repos list and in turn fetch new list of repos
@@ -10,6 +10,14 @@ import { GET_REPOS_SUCCESS, GET_PR_LIST_SUCCESS } from './types';
     payload: repoList
   };
 };
+
+ export const searchRepositories = (text) => {
+   return {
+     type: SEARCH_REPOS_LIST,
+     text: text,
+   }
+ };
+
 
 // Action to get a repo card details will need to re-render details based on chosen repo, so need action to dispatch and get details to update card detail comp
 // Last 10 PR's, author, title, number, status
