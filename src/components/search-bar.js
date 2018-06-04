@@ -1,14 +1,16 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import { View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import { barStyle } from '../utils/styles';
+import { headerStyle, searchBarStyle } from '../utils/styles';
 
 const SearchBarComponent = ({ onChangeText, onClear, value }) => {
     return (
+      <View style={headerStyle.containerStyle}>
         <SearchBar
-          containerStyle={barStyle.containerStyle}
-          inputStyle={barStyle.inputStyle}
+          containerStyle={searchBarStyle.containerStyle}
+          inputStyle={searchBarStyle.inputStyle}
           placeholder='Search'
-          placeholderTextColor='#000'
+          placeholderTextColor={'#000'}
           platform='ios'
           round
           icon={{ color: '#000' }}
@@ -18,6 +20,7 @@ const SearchBarComponent = ({ onChangeText, onClear, value }) => {
           onClear={onClear}
           // cancelButtonTitle="Cancel"
         />
+      </View>
     );
 };
 

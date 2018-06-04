@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { buttonStyle } from '../utils/styles';
-import { Actions } from 'react-native-router-flux';
 
 const Button = ({ onPress, children }) => {
   // Return and restyle the button
@@ -10,7 +9,7 @@ const Button = ({ onPress, children }) => {
     <TouchableOpacity
       style={buttonStyle}
       onPress={onPress}>
-      <Text style={{color: '#007aff', fontWeight: 'bold', fontSize: 20}}> {children} </Text>
+      <Text style={{color: '#007aff', fontSize: 20}}> {children} </Text>
     </TouchableOpacity>
   );
 };

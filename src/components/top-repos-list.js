@@ -6,6 +6,7 @@ import { getReposList, searchRepositories } from '../actions/creators';
 import RepoCard from './repo-card';
 import Header from './header';
 import SearchBarComponent from './search-bar';
+import { viewStyles } from '../utils/styles';
 
 class TopReposList extends PureComponent {
   // TopReposList class level props - may be good to add container refactoring for this component
@@ -26,29 +27,25 @@ class TopReposList extends PureComponent {
     this.props.searchRepositories(text);
   };
 
-
-  render() {
-    console.log("current props ", this.props);
-
-    // probably this could be refactored
-    const getRepoItems = () => {
-      if (!this.props.value) {
-        return this.props.topRepos.map(repo =>
-          <RepoCard
-            key={repo.id}
-            name={repo.name}
-            avatar={repo.owner.avatar_url}
-            watchers={repo.watchers}
-            stars={repo.stargazers_count}
-            openIssues={repo.open_issues}
-            owner={repo.owner.login}
-          />
-        );
-      } else {
-        return this.props.topRepos.map(repo => {
-          if (repo.name.toLowerCase().indexOf(this.props.value.toLowerCase()) > -1) {
-            return (
-              <RepoCard
+  // probably this could be refactored
+  _getRepoItem = () => {
+    if (!this.props.value) {
+      return this.props.topRepos.map(repo =>
+        <RepoCard
+          key={repo.id}
+          name={repo.name}
+          avatar={repo.owner.avatar_url}
+          watchers={repo.watchers}
+          stars={repo.stargazers_count}
+          openIssues={repo.open_issues}
+          owner={repo.owner.login}
+        />
+      );
+    } else {
+      return this.props.topRepos.map(repo => {
+        if (repo.name.toLowerCase().indexOf(this.props.value.toLowerCase()) > -1) {
+          return (
+            <RepoCard
               key={repo.id}
               name={repo.name}
               avatar={repo.owner.avatar_url}
@@ -57,14 +54,18 @@ class TopReposList extends PureComponent {
               openIssues={repo.open_issues}
               owner={repo.owner.login}
             />
-            );
-          }
-        });
-      }
-    };
+          );
+        }
+      });
+    }
+  };
+
+  render() {
+    console.log("current props ", this.props);
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      // removed justify content center from view styles
+      <View style={viewStyles.containerStyle}>
         <SearchBarComponent
           value={this.props.value}
           onClear={this._onClear}
@@ -73,11 +74,11 @@ class TopReposList extends PureComponent {
         <Header>
           Top Repositories
         </Header>
-        <ScrollView removeClippedSubviews={false}>
-          {
-            this.props.topRepos && this.props.topRepos.length ? getRepoItems() : null
-          }
-        </ScrollView>
+          <ScrollView removeClippedSubviews={false}>
+            {
+              this.props.topRepos && this.props.topRepos.length ? this._getRepoItem() : null
+            }
+          </ScrollView>
       </View>
     );
   }

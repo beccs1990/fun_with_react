@@ -1,38 +1,55 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
-import { itemStyle } from '../utils/styles';
+import {
+  cardStyle,
+  arrowIcon,
+  starsIcon,
+  issuesIcon,
+  watchersIcon } from '../utils/styles';
 import { Actions } from 'react-native-router-flux';
 
 // think about making this reusable for pr cards
-const RepoCard = (props) => {
-  const enterRepoDetails = () => Actions.repodetails({ title: props.name, owner: props.owner });
-  const { name, stars, watchers, openIssues, avatar } = props;
-    // move styling out later
+class RepoCard extends PureComponent {
+  // move styling out later
+  render() {
+    const { name, stars, watchers, openIssues, avatar, owner } = this.props;
+    const enterRepoDetails = () => Actions.repodetails({ title: name, owner: owner });
+
     return (
       <TouchableOpacity onPress={enterRepoDetails}>
-        <View style={itemStyle} flexDirection={'row'} justifyContent={'space-evenly'}>
-          <Image style={{width: 50, height: 50, borderRadius: 25}} source={{uri: avatar}}/>
-          <View alignItems={'center'}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, paddingBottom: 2, color: '#e73331' }}>
+        <View style={cardStyle.containerStyle} flexDirection={'row'} justifyContent={'space-evenly'}>
+
+          <View justifyContent={'flex-start'}>
+            <Image style={cardStyle.imageStyle} source={{ uri: avatar }}/>
+          </View>
+
+          <View justifyContent={'center'} alignItems={'center'} style={cardStyle.textContainerStyle}>
+            <Text style={cardStyle.textStyle}>
               {name}
             </Text>
-            <Text style={{ color: 'red' }}>
-              Stars: {stars}
-              <Text style={{ color: 'blue' }}>
-                Watchers: {watchers}
-                <Text style={{ color: 'black' }}>
-                  Open Issues: {openIssues}
-                </Text>
+            <View flexDirection={'row'} style={cardStyle.subTextStyle}>
+              <Text style={[cardStyle.subTextStyle, {color: "#e1d456"}]}>
+                {starsIcon} {stars}
               </Text>
-            </Text>
+              <Text style={[cardStyle.subTextStyle, {color: 'black'}]}>
+                {watchersIcon} {watchers}
+              </Text>
+              <Text style={[cardStyle.subTextStyle, {color: 'red'}]}>
+                {issuesIcon} {openIssues}
+              </Text>
+            </View>
           </View>
-          <Button onPress={enterRepoDetails}>
-            >
-          </Button>
+
+          <View style={{height: 50, paddingBottom: 15}} alignItems={'center'} justifyContent={'flex-end'}>
+            <Button onPress={enterRepoDetails}>
+              {arrowIcon}
+            </Button>
+          </View>
         </View>
       </TouchableOpacity>
     );
-};
+  }
+}
 
 export default RepoCard;

@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { cardStyle, authorIcon, prNumberIcon } from '../utils/styles';
 
 const PullRequestCard = (props) => {
 
-  // console.log("pr card props ", props);
   return(
     <TouchableOpacity>
-      <View alignItems={'center'}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18, paddingBottom: 2, color: '#e73331' }}>
+      <View style={cardStyle.containerStyle} alignItems={'center'}>
+        <Text style={cardStyle.textStyle}>
           {props.issueTitle}
         </Text>
         <Text style={{ color: 'red' }}>
-          {props.author}
+          {authorIcon} {props.author}
           <Text style={{ color: 'blue' }}>
-            {props.issueNumber}
+            {prNumberIcon} {props.issueNumber}
             <Text style={{ color: 'black' }}>
               {props.issueStatus}
             </Text>

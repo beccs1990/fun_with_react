@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { getRepoDetails } from '../utils/apis';
 import { connect } from 'react-redux';
 import { getPRList } from '../actions/creators';
@@ -8,7 +8,8 @@ import Header from './header';
 
 class RepoDetails extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log("details ", this.props);
     getRepoDetails(this.props.owner, this.props.title).then(response => {
       console.log(response);
       if (!response.data && !response.data.length) {
@@ -19,6 +20,7 @@ class RepoDetails extends Component {
   }
 
   getPullRequests() {
+    if (this.props.last10PR && this.props.last10PR.length) {
       return this.props.last10PR.map(pr =>
         <PullRequestCard
           key={pr.id}
@@ -28,16 +30,25 @@ class RepoDetails extends Component {
           issueStatus={pr.state}
         />
       )
+    } else {
+      return(
+        <Text>
+          No Recent Pull Requests From This Repository
+        </Text>
+      )
+    }
   }
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Header>
           10 Last PR's
         </Header>
         <ScrollView>
-            { this.getPullRequests() }
+            {
+              this.getPullRequests()
+            }
         </ScrollView>
       </View>
     );
